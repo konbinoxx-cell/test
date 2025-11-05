@@ -1,1 +1,10 @@
-test
+[
+  {
+    "id": "test-1762364188227",
+    "question": "测试问题",
+    "answer": "测试回答",
+    "category": "test",
+    "date": "2025-11-05T17:36:28.227Z",
+    "status": "published"
+  }
+]
