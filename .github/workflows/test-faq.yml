@@ -9,29 +9,26 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with: 
           node-version: '18'
 
-      - name: Debug before script
-        run: |
-          echo "=== 脚本执行前 ==="
-          ls -la scripts/process-answer.js
-          echo "=== 当前faq-data.json内容 ==="
-          cat faq-data.json || echo "文件为空或不存在"
+      - name: Install dependencies
+        run: npm install @actions/core @actions/github
 
       - name: Run test script
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/process-answer.js
 
-      - name: Debug after script  
+      - name: Commit and push changes
         run: |
-          echo "=== 脚本执行后 ==="
-          ls -la faq-data.json
-          echo "=== 文件内容 ==="
-          cat faq-data.json || echo "文件为空"
-          echo "=== 文件大小 ==="
-          wc -c faq-data.json
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add faq-data.json
+          git commit -m "docs: 更新FAQ测试数据" || echo "没有更改可提交"
+          git push
