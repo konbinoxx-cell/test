@@ -22,3 +22,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/process-answer.js
+
+      - name: Verify file changes
+        run: |
+          echo "=== 检查文件内容 ==="
+          cat faq-data.json
+          echo "=== 检查文件状态 ==="
+          git status
+          echo "=== 检查文件差异 ==="
+          git diff faq-data.json || echo "无差异"
