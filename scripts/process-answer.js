@@ -1,9 +1,7 @@
 const fs = require('fs');
-const core = require('@actions/core');
 
 console.log('=== 测试脚本开始 ===');
 
-// 简单的测试逻辑
 const testEntry = {
   id: 'test-' + Date.now(),
   question: '测试问题',
@@ -13,7 +11,6 @@ const testEntry = {
   status: 'published'
 };
 
-// 读取或创建 FAQ 数据
 let faqData = [];
 try {
   if (fs.existsSync('faq-data.json')) {
@@ -25,7 +22,6 @@ try {
   console.log('创建新数据文件');
 }
 
-// 添加测试条目
 faqData.push(testEntry);
 fs.writeFileSync('faq-data.json', JSON.stringify(faqData, null, 2));
 console.log('成功写入测试数据');
