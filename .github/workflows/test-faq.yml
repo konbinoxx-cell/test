@@ -1,8 +1,6 @@
 name: Test FAQ Process
 
 on:
-  issues:
-    types: [opened]
   workflow_dispatch:
 
 jobs:
@@ -17,12 +15,8 @@ jobs:
         with: 
           node-version: '18'
 
-      - name: Debug info
-        run: |
-          echo "=== 环境信息 ==="
-          echo "PWD: $(pwd)"
-          echo "LS: $(ls -la)"
-          echo "脚本存在: $(ls scripts/process-answer.js 2>/dev/null && echo '是' || echo '否')"
+      - name: Install dependencies
+        run: npm install @actions/core @actions/github
 
       - name: Run test script
         env:
