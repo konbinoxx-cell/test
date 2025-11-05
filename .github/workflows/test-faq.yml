@@ -15,19 +15,23 @@ jobs:
         with: 
           node-version: '18'
 
-      - name: Install dependencies
-        run: npm install @actions/core @actions/github
+      - name: Debug before script
+        run: |
+          echo "=== 脚本执行前 ==="
+          ls -la scripts/process-answer.js
+          echo "=== 当前faq-data.json内容 ==="
+          cat faq-data.json || echo "文件为空或不存在"
 
       - name: Run test script
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node scripts/process-answer.js
 
-      - name: Verify file changes
+      - name: Debug after script  
         run: |
-          echo "=== 检查文件内容 ==="
-          cat faq-data.json
-          echo "=== 检查文件状态 ==="
-          git status
-          echo "=== 检查文件差异 ==="
-          git diff faq-data.json || echo "无差异"
+          echo "=== 脚本执行后 ==="
+          ls -la faq-data.json
+          echo "=== 文件内容 ==="
+          cat faq-data.json || echo "文件为空"
+          echo "=== 文件大小 ==="
+          wc -c faq-data.json
