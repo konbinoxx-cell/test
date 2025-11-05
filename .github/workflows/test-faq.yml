@@ -1,0 +1,30 @@
+name: Test FAQ Process
+
+on:
+  issues:
+    types: [opened]
+  workflow_dispatch:
+
+jobs:
+  test-faq:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with: 
+          node-version: '18'
+
+      - name: Debug info
+        run: |
+          echo "=== 环境信息 ==="
+          echo "PWD: $(pwd)"
+          echo "LS: $(ls -la)"
+          echo "脚本存在: $(ls scripts/process-answer.js 2>/dev/null && echo '是' || echo '否')"
+
+      - name: Run test script
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/process-answer.js
